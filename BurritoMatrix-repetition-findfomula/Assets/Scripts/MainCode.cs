@@ -5,71 +5,66 @@ using UnityEngine;
 public class MainCode : MonoBehaviour
 {
     public MainInterface mainInterface;
-    public BurritoMatrix36 burritoMatrix36;
-
-    private int[][] Matrix36;
 
     private void Start()
     {
-        //load up matrixse
-        Matrix36 = burritoMatrix36.Matrix36;
         //show initialization
         AddInput("Begin...", false);
-
         //commense calculation
         BeginCalc();
-
         //end
-        AddInput("End...", false);
+        AddInput("End...", true);
     }
 
     private void BeginCalc()
     {
-        int atCurrentBurrito;
-
-        for (atCurrentBurrito = 8; atCurrentBurrito < 8; atCurrentBurrito += 2)
+        for (int atBM = 4; atBM < 36; atBM += 2)
         {
-
-            //zerobased array
-            int atIndex = 2;
+            //AddInput("===== doing number: " + atCurrentBurrito);
             int atRow = 0;
-            int didRepeat = 1;//first row
+            int atColumn = 2;
+            int didRepeat = 1; //first row always present
 
-            while (atRow < atCurrentBurrito - 1)
+            while (atRow < atBM - 1)
             {
-                //count up formula 2^n while sum smaller than matrix size
-                while (atIndex < atCurrentBurrito)
+                while (atColumn < atBM)
                 {
-                    //AddInput(atIndex + ", ");
                     atRow++;
-                    atIndex = (atIndex - 1) * 2 + 1;
+                    //AddInput("atIndex: " + atIndex + ", atRow: " + atRow);
+                    if (atColumn == atBM / 2 + 1)
+                    {
+                        atColumn = atBM;
+                    }
+                    else
+                    {
+                        atColumn = (atColumn - 1) * 2 + 1;
+                    }
                 }
                 //AddInput("atindex before reduction: " + atIndex + ", ");
-                //reset indexvalue to correct value
-                if (atIndex > atCurrentBurrito)
+                //reset index value to correct value
+                if (atColumn > atBM)
                 {
-                    atIndex -= (atIndex - 1) / 2;
+                    atColumn -= (atColumn - 1) / 2;
+                    atColumn = (atBM - atColumn) * 2 + 2;
+                }else{
+                    atColumn = (atBM - atColumn) * 2 + 2;
                 }
-
-                //cacluate next index
-                atIndex = (atCurrentBurrito - atIndex) * 2 + 2;
-                //atRow++;
-
-                if (atIndex == 2)
+                //AddInput("atindex after reduction: " + atIndex + ", ");
+                if (atColumn == 2)
                 {
-                    didRepeat++;
+                    atRow++;
+                    if (atRow < atBM)
+                    {
+                        didRepeat++;
+                        //AddInput("atRow: " + atRow + " didRepeat: " + didRepeat);
+                    }
                 }
             }
-            AddInput("atCurrentBurrito: " + atCurrentBurrito + " DidRepeat: " + didRepeat);
-
-            //if not the number will get a new index at first half of sequence and accelerate depending on sizenumber
+            AddInput("at Burrito Matrix size: " + atBM + " First row Repeated: " + didRepeat);
         }
     }
-    
-    //shorten the function call
     private void AddInput(string str, bool useLineBreak = true)
     {
         mainInterface.AddInput(str, useLineBreak);
     }
-
 }
