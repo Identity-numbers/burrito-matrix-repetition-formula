@@ -18,9 +18,8 @@ public class MainCode : MonoBehaviour
 
     private void BeginCalc()
     {
-        for (int atBM = 4; atBM < 36; atBM += 2)
+        for (int atBM = 2; atBM < 1000; atBM += 2)
         {
-            //AddInput("===== doing number: " + atCurrentBurrito);
             int atRow = 0;
             int atColumn = 2;
             int didRepeat = 1; //first row always present
@@ -30,7 +29,6 @@ public class MainCode : MonoBehaviour
                 while (atColumn < atBM)
                 {
                     atRow++;
-                    //AddInput("atIndex: " + atIndex + ", atRow: " + atRow);
                     if (atColumn == atBM / 2 + 1)
                     {
                         atColumn = atBM;
@@ -40,27 +38,27 @@ public class MainCode : MonoBehaviour
                         atColumn = (atColumn - 1) * 2 + 1;
                     }
                 }
-                //AddInput("atindex before reduction: " + atIndex + ", ");
-                //reset index value to correct value
+
                 if (atColumn > atBM)
                 {
-                    atColumn -= (atColumn - 1) / 2;
-                    atColumn = (atBM - atColumn) * 2 + 2;
-                }else{
-                    atColumn = (atBM - atColumn) * 2 + 2;
+                    atColumn = 2 * atBM - atColumn + 1;
                 }
-                //AddInput("atindex after reduction: " + atIndex + ", ");
+                else
+                {
+                    atColumn = 2 * (atBM - atColumn + 1);
+                }
+
                 if (atColumn == 2)
                 {
-                    atRow++;
+                    atRow++; 
                     if (atRow < atBM)
                     {
                         didRepeat++;
-                        //AddInput("atRow: " + atRow + " didRepeat: " + didRepeat);
                     }
                 }
             }
-            AddInput("at Burrito Matrix size: " + atBM + " First row Repeated: " + didRepeat);
+            //AddInput("at Burrito Matrix size: " + atBM + " First row Repeated: " + didRepeat);
+            AddInput(didRepeat + ", ", false);
         }
     }
     private void AddInput(string str, bool useLineBreak = true)
